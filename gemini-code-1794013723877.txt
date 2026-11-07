@@ -1,0 +1,468 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+% ========================================================
+% CÁC GÓI KỸ THUẬT VÀ TOÁN HỌC CHUẨN
+% ========================================================
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=25mm,
+    right=20mm,
+    top=25mm,
+    bottom=25mm
+}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,theorems,breakable}
+
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=red,urlcolor=blue]{hyperref}
+
+% ========================================================
+% THIẾT LẬP MÔI TRƯỜNG ĐỊNH LÝ, ĐỊNH NGHĨA BẰNG TCOLORBOX
+% ========================================================
+\theoremstyle{definition}
+\newtheorem{definition}{Định nghĩa}[chapter]
+\newtheorem{example}{Ví dụ}[chapter]
+\newtheorem{exercise}{Bài tập}[chapter]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Định lý}[chapter]
+\newtheorem{lemma}{Bổ đề}[chapter]
+\newtheorem{proposition}{Mệnh đề}[chapter]
+\newtheorem{corollary}{Hệ quả}[chapter]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Nhận xét}[chapter]
+
+% ========================================================
+% ĐẦU TRANG VÀ CHÂN TRANG (FANCYHDR)
+% ========================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\slshape \leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ========================================================
+% BẮT ĐẦU TÀI LIỆU
+% ========================================================
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge \bfseries GIÁO TRÌNH CHUYÊN KHẢO\\[0.5cm] PHÉP TÍNH VI PHÂN}\\[1.5cm]
+    {\Large \textbf{Lý thuyết Giải tích Hình thức và Ứng dụng Toàn diện}}\\[2cm]
+    
+    \vfill
+    {\large Biên soạn dành riêng cho nghiên cứu giải tích chuyên sâu}\\[0.5cm]
+    {\large Năm 2026}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ========================================================
+% CHƯƠNG 1
+% ========================================================
+\chapter{Đạo hàm và Tính Khả vi của Hàm số Một biến}
+
+\section{Đặt vấn đề và Trực giác Toán học}
+Phép tính vi phân ra đời từ hai bài toán thực tiễn căn bản:
+\begin{enumerate}
+    \item \textbf{Bài toán hình học:} Xác định tiếp tuyến của một đường cong phẳng tại một điểm cho trước (Fermat, Leibniz).
+    \item \textbf{Bài toán cơ học:} Xác định vận tốc tức thời của một chuyển động phi tuyến tính (Newton).
+\end{enumerate}
+
+Cốt lõi giải tích của phép tính vi phân không chỉ dừng lại ở tỷ số biến thiên $\frac{\Delta y}{\Delta x}$, mà nằm ở việc xấp xỉ một quá trình biến thiên phi tuyến phức tạp cục bộ bằng một hàm tuyến tính đơn giản:
+\[
+f(x_0 + \Delta x) - f(x_0) \approx A \cdot \Delta x
+\]
+với sai số triệt tiêu nhanh hơn $\Delta x$ khi $\Delta x \to 0$.
+
+\section{Định nghĩa Hình thức và Tính chất Cơ sở}
+
+\begin{definition}[Đạo hàm tại một điểm]
+Cho hàm số $f: (a, b) \to \mathbb{R}$ và điểm $x_0 \in (a, b)$. Nếu tồn tại giới hạn hữu hạn:
+\[
+\lim_{\Delta x \to 0} \frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x} = \lim_{x \to x_0} \frac{f(x) - f(x_0)}{x - x_0} = L \in \mathbb{R}
+\]
+thì ta nói hàm số $f$ \textbf{khả đạo} (có đạo hàm) tại $x_0$, ký hiệu là $f'(x_0)$ hoặc $\frac{df}{dx}(x_0)$. 
+
+Bằng ngôn ngữ hình thức $(\varepsilon - \delta)$:
+\[
+\forall \varepsilon > 0, \exists \delta > 0, \forall x \in (a, b): 0 < |x - x_0| < \delta \implies \left| \frac{f(x) - f(x_0)}{x - x_0} - f'(x_0) \right| < \varepsilon.
+\]
+\end{definition}
+
+\begin{definition}[Tính khả vi và Vi phân cấp 1]
+Hàm số $f: (a, b) \to \mathbb{R}$ được gọi là \textbf{khả vi} tại điểm $x_0 \in (a, b)$ nếu số gia $\Delta f(x_0) = f(x_0 + \Delta x) - f(x_0)$ có thể biểu diễn dưới dạng:
+\[
+\Delta f(x_0) = A \cdot \Delta x + o(\Delta x) \quad \text{khi } \Delta x \to 0
+\]
+trong đó $A$ là một hằng số thực độc lập với $\Delta x$, và $o(\Delta x)$ biểu thị đại lượng vô cùng bé bậc cao hơn $\Delta x$, tức là $\lim_{\Delta x \to 0} \frac{o(\Delta x)}{\Delta x} = 0$.
+
+Biểu thức tuyến tính $A \cdot \Delta x$ được gọi là \textbf{vi phân} của hàm số $f$ tại $x_0$, ký hiệu là $df(x_0)$ hay $df(x_0)(\Delta x) = A \cdot \Delta x$. Khi $f(x) = x$, ta có $dx = \Delta x$, do đó $df(x_0) = A \, dx$.
+\end{definition}
+
+\begin{theorem}[Sự tương đương giữa Khả đạo và Khả vi trong $\mathbb{R}$]
+Cho $f: (a, b) \to \mathbb{R}$ và $x_0 \in (a, b)$. Khi đó, $f$ khả vi tại $x_0$ khi và chỉ khi $f$ có đạo hàm hữu hạn tại $x_0$. Trong trường hợp đó, hệ số tuyến tính $A$ duy nhất và $A = f'(x_0)$.
+\end{theorem}
+
+\begin{proof}
+\textbf{Chiều thuận ($\implies$):} Giả sử $f$ khả vi tại $x_0$. Theo định nghĩa:
+\[
+f(x_0 + \Delta x) - f(x_0) = A \cdot \Delta x + o(\Delta x).
+\]
+Chia hai vế cho $\Delta x \neq 0$:
+\[
+\frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x} = A + \frac{o(\Delta x)}{\Delta x}.
+\]
+Lấy giới hạn khi $\Delta x \to 0$:
+\[
+\lim_{\Delta x \to 0} \frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x} = A + 0 = A.
+\]
+Theo định nghĩa đạo hàm, $f'(x_0)$ tồn tại hữu hạn và $f'(x_0) = A$.
+
+\textbf{Chiều đảo ($\impliedby$):} Giả sử tồn tại $f'(x_0) = \lim_{\Delta x \to 0} \frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x}$. Đặt:
+\[
+\alpha(\Delta x) = \frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x} - f'(x_0).
+\]
+Khi đó $\lim_{\Delta x \to 0} \alpha(\Delta x) = 0$. Suy ra:
+\[
+f(x_0 + \Delta x) - f(x_0) = f'(x_0) \Delta x + \alpha(\Delta x) \Delta x.
+\]
+Vì $\lim_{\Delta x \to 0} \frac{\alpha(\Delta x) \Delta x}{\Delta x} = \lim_{\Delta x \to 0} \alpha(\Delta x) = 0$, ta có $\alpha(\Delta x) \Delta x = o(\Delta x)$. Đặt $A = f'(x_0)$, ta thu được dạng vi phân đầy đủ.
+\end{proof}
+
+\begin{theorem}[Mối liên hệ giữa Khả vi và Liên tục]
+Nếu hàm số $f$ khả vi tại $x_0$ thì $f$ liên tục tại $x_0$.
+\end{theorem}
+
+\begin{proof}
+Vì $f$ khả vi tại $x_0$, ta có:
+\[
+\lim_{x \to x_0} [f(x) - f(x_0)] = \lim_{x \to x_0} \left[ \frac{f(x) - f(x_0)}{x - x_0} \cdot (x - x_0) \right] = f'(x_0) \cdot 0 = 0.
+\]
+Do đó $\lim_{x \to x_0} f(x) = f(x_0)$, chứng minh $f$ liên tục tại $x_0$.
+\end{proof}
+
+\begin{example}[Phản ví dụ chiều đảo]
+Hàm số liên tục chưa chắc khả vi. Xét $f(x) = |x|$ tại $x_0 = 0$:
+\[
+\lim_{x \to 0^+} \frac{|x| - 0}{x - 0} = 1, \quad \lim_{x \to 0^-} \frac{|x| - 0}{x - 0} = -1.
+\]
+Do hai giới hạn một phía khác nhau, $f'(0)$ không tồn tại dù $f(x)$ liên tục toàn cục trên $\mathbb{R}$.
+\end{example}
+
+\section{Đạo hàm Hàm hợp và Hàm ngược}
+
+\begin{lemma}[Bổ đề Carathéodory]
+Hàm số $f: (a, b) \to \mathbb{R}$ khả vi tại $x_0 \in (a, b)$ khi và chỉ khi tồn tại một hàm số $\varphi: (a, b) \to \mathbb{R}$ liên tục tại $x_0$ sao cho:
+\[
+f(x) - f(x_0) = \varphi(x)(x - x_0), \quad \forall x \in (a, b).
+\]
+Khi đó, $\varphi(x_0) = f'(x_0)$.
+\end{lemma}
+
+\begin{theorem}[Quy tắc Đạo hàm Hàm hợp - Chain Rule]
+Cho $g: (a, b) \to (c, d)$ khả vi tại $x_0 \in (a, b)$ và $f: (c, d) \to \mathbb{R}$ khả vi tại $y_0 = g(x_0)$. Khi đó hàm hợp $h = f \circ g$ khả vi tại $x_0$ và:
+\[
+h'(x_0) = (f \circ g)'(x_0) = f'(g(x_0)) \cdot g'(x_0).
+\]
+\end{theorem}
+
+\begin{proof}
+Áp dụng Bổ đề Carathéodory cho hàm $f$ tại điểm $y_0 = g(x_0)$: tồn tại hàm $\Phi: (c, d) \to \mathbb{R}$ liên tục tại $y_0$ với $\Phi(y_0) = f'(y_0)$ sao cho:
+\[
+f(y) - f(y_0) = \Phi(y)(y - y_0), \quad \forall y \in (c, d).
+\]
+Thay $y = g(x)$ và $y_0 = g(x_0)$ vào đẳng thức trên:
+\[
+f(g(x)) - f(g(x_0)) = \Phi(g(x))[g(x) - g(x_0)].
+\]
+Với $x \neq x_0$, ta chia hai vế cho $x - x_0$:
+\[
+\frac{h(x) - h(x_0)}{x - x_0} = \Phi(g(x)) \cdot \frac{g(x) - g(x_0)}{x - x_0}.
+\]
+Vì $g$ khả vi tại $x_0$, $g$ liên tục tại $x_0$, kéo theo $\lim_{x \to x_0} g(x) = g(x_0) = y_0$. Hơn nữa, $\Phi$ liên tục tại $y_0$, do đó:
+\[
+\lim_{x \to x_0} \Phi(g(x)) = \Phi(y_0) = f'(g(x_0)).
+\]
+Lấy giới hạn cả hai vế khi $x \to x_0$, ta được:
+\[
+h'(x_0) = f'(g(x_0)) \cdot g'(x_0).
+\]
+Chứng minh hoàn tất mà không cần chia trường hợp $g(x) - g(x_0) = 0$.
+\end{proof}
+
+% ========================================================
+% CHƯƠNG 2
+% ========================================================
+\chapter{Các Định lý Giá trị Trung bình và Ứng dụng Căn bản}
+
+\section{Bổ đề Fermat và Điểm dừng}
+
+\begin{theorem}[Bổ đề Fermat về Điểm cực trị Địa phương]
+Cho hàm số $f: (a, b) \to \mathbb{R}$. Giả sử $f$ đạt cực trị địa phương (cực đại hoặc cực tiểu) tại điểm $c \in (a, b)$ và $f$ khả vi tại $c$. Khi đó:
+\[
+f'(c) = 0.
+\]
+\end{theorem}
+
+\begin{proof}
+Không mất tính tổng quát, giả sử $f$ đạt cực đại địa phương tại $c$. Khi đó tồn tại lân cận $\delta > 0$ sao cho với mọi $x \in (c - \delta, c + \delta) \subset (a, b)$, ta có $f(x) \le f(c)$, tức là $f(x) - f(c) \le 0$.
+
+Xét tỷ số số gia:
+\begin{itemize}
+    \item Nếu $x \in (c, c + \delta)$, thì $x - c > 0$, do đó:
+    \[
+    \frac{f(x) - f(c)}{x - c} \le 0 \implies f'(c) = \lim_{x \to c^+} \frac{f(x) - f(c)}{x - c} \le 0.
+    \]
+    \item Nếu $x \in (c - \delta, c)$, thì $x - c < 0$, do đó:
+    \[
+    \frac{f(x) - f(c)}{x - c} \ge 0 \implies f'(c) = \lim_{x \to c^-} \frac{f(x) - f(c)}{x - c} \ge 0.
+    \]
+\end{itemize}
+Do $f$ khả vi tại $c$, hai giới hạn một phía phải bằng nhau và bằng $f'(c)$. Từ $f'(c) \le 0$ và $f'(c) \ge 0$, bắt buộc $f'(c) = 0$.
+\end{proof}
+
+\section{Các Định lý Rolle, Lagrange và Cauchy}
+
+\begin{theorem}[Định lý Rolle]
+Cho hàm số $f: [a, b] \to \mathbb{R}$ thỏa mãn:
+\begin{enumerate}
+    \item $f$ liên tục trên đoạn đóng $[a, b]$,
+    \item $f$ khả vi trên khoảng mở $(a, b)$,
+    \item $f(a) = f(b)$.
+\end{enumerate}
+Khi đó tồn tại ít nhất một điểm $c \in (a, b)$ sao cho $f'(c) = 0$.
+\end{theorem}
+
+\begin{proof}
+Vì $f$ liên tục trên đoạn compact $[a, b]$, theo Định lý Weierstrass về giá trị biên, $f$ đạt giá trị lớn nhất $M$ và giá trị nhỏ nhất $m$ trên $[a, b]$. Tức là tồn tại $x_1, x_2 \in [a, b]$ sao cho $f(x_1) = M$ và $f(x_2) = m$.
+
+\textbf{Trường hợp 1:} $M = m$. Khi đó $f$ là hàm hằng trên $[a, b]$. Do đó $f'(x) = 0$ với mọi $x \in (a, b)$, định lý hiển nhiên đúng.
+
+\textbf{Trường hợp 2:} $M > m$. Vì $f(a) = f(b)$, hai giá trị cực trị $M$ và $m$ không thể đồng thời rơi vào hai đầu mút $\{a, b\}$. Giả sử $M$ đạt được tại điểm $c \in (a, b)$, tức là $f(c) = M$. Vì $c$ là điểm cực đại nội tại và $f$ khả vi tại $c$, theo Bổ đề Fermat, ta có $f'(c) = 0$.
+\end{proof}
+
+\begin{theorem}[Định lý Giá trị Trung bình Lagrange]
+Cho hàm số $f: [a, b] \to \mathbb{R}$ thỏa mãn: $f$ liên tục trên $[a, b]$ và khả vi trên $(a, b)$. Khi đó tồn tại ít nhất một điểm $c \in (a, b)$ sao cho:
+\[
+f(b) - f(a) = f'(c)(b - a).
+\]
+\end{theorem}
+
+\begin{proof}
+Xét hàm phụ trợ $\phi: [a, b] \to \mathbb{R}$ đại diện cho khoảng cách thẳng đứng từ đồ thị $f(x)$ tới đường dây cung nối $(a, f(a))$ và $(b, f(b))$:
+\[
+\phi(x) = f(x) - f(a) - \frac{f(b) - f(a)}{b - a}(x - a).
+\]
+Kiểm tra các điều kiện của định lý Rolle cho $\phi$:
+\begin{enumerate}
+    \item $\phi$ liên tục trên $[a, b]$ vì là tổng các hàm liên tục.
+    \item $\phi$ khả vi trên $(a, b)$ với đạo hàm:
+    \[
+    \phi'(x) = f'(x) - \frac{f(b) - f(a)}{b - a}.
+    \]
+    \item $\phi(a) = 0$ và $\phi(b) = f(b) - f(a) - [f(b) - f(a)] = 0$. Do đó $\phi(a) = \phi(b)$.
+\end{enumerate}
+Theo Định lý Rolle, tồn tại $c \in (a, b)$ sao cho $\phi'(c) = 0$, nghĩa là:
+\[
+f'(c) - \frac{f(b) - f(a)}{b - a} = 0 \iff f(b) - f(a) = f'(c)(b - a).
+\]
+\end{proof}
+
+\begin{theorem}[Định lý Giá trị Trung bình Cauchy]
+Cho hai hàm số $f, g: [a, b] \to \mathbb{R}$ liên tục trên $[a, b]$, khả vi trên $(a, b)$. Giả sử thêm rằng $g'(x) \neq 0$ với mọi $x \in (a, b)$. Khi đó $g(b) \neq g(a)$ và tồn tại $c \in (a, b)$ sao cho:
+\[
+\frac{f(b) - f(a)}{g(b) - g(a)} = \frac{f'(c)}{g'(c)}.
+\]
+\end{theorem}
+
+\begin{proof}
+Trước hết, nếu $g(b) = g(a)$ thì theo Định lý Rolle tồn tại $\xi \in (a, b)$ để $g'(\xi) = 0$, mâu thuẫn với giả thiết $g'(x) \neq 0$. Do đó $g(b) \neq g(a)$.
+
+Xét hàm phụ trợ $\psi: [a, b] \to \mathbb{R}$:
+\[
+\psi(x) = [f(b) - f(a)]g(x) - [g(b) - g(a)]f(x).
+\]
+Hàm $\psi$ thỏa mãn:
+\begin{enumerate}
+    \item $\psi$ liên tục trên $[a, b]$ và khả vi trên $(a, b)$.
+    \item $\psi(a) = f(b)g(a) - g(b)f(a) = \psi(b)$.
+\end{enumerate}
+Theo Định lý Rolle, tồn tại $c \in (a, b)$ sao cho $\psi'(c) = 0$:
+\[
+[f(b) - f(a)]g'(c) - [g(b) - g(a)]f'(c) = 0.
+\]
+Vì $g'(c) \neq 0$ và $g(b) - g(a) \neq 0$, chia hai vế ta được công thức Cauchy.
+\end{proof}
+
+\section{Quy tắc L'Hôpital}
+
+\begin{theorem}[Quy tắc L'Hôpital - Dạng $0/0$]
+Cho $f, g$ khả vi trên $(a, b) \setminus \{c\}$ với $c \in [a, b]$. Giả sử:
+\begin{enumerate}
+    \item $\lim_{x \to c} f(x) = 0$ và $\lim_{x \to c} g(x) = 0$,
+    \item $g'(x) \neq 0$ trên một lân cận thủng của $c$,
+    \item Tồn tại giới hạn hữu hạn hoặc vô hạn: $\lim_{x \to c} \frac{f'(x)}{g'(x)} = L$.
+\end{enumerate}
+Khi đó:
+\[
+\lim_{x \to c} \frac{f(x)}{g(x)} = L.
+\]
+\end{theorem}
+
+\begin{proof}
+Mở rộng liên tục $f, g$ tại $c$ bằng cách đặt $f(c) = 0$ và $g(c) = 0$. Xét điểm $x > c$. Áp dụng định lý Cauchy trên đoạn $[c, x]$:
+\[
+\frac{f(x)}{g(x)} = \frac{f(x) - f(c)}{g(x) - g(c)} = \frac{f'(\xi_x)}{g'(\xi_x)}
+\]
+với $\xi_x \in (c, x)$. Khi $x \to c^+$, theo nguyên lý kẹp ta có $\xi_x \to c^+$. Do đó:
+\[
+\lim_{x \to c^+} \frac{f(x)}{g(x)} = \lim_{\xi_x \to c^+} \frac{f'(\xi_x)}{g'(\xi_x)} = L.
+\]
+Lý luận hoàn toàn tương tự cho giới hạn phía trái $x \to c^-$. Vậy $\lim_{x \to c} \frac{f(x)}{g(x)} = L$.
+\end{proof}
+
+% ========================================================
+% CHƯƠNG 3
+% ========================================================
+\chapter{Đạo hàm Cấp cao và Khai triển Taylor}
+
+\section{Đạo hàm Cấp cao và Công thức Leibniz}
+Cho $f$ khả vi cấp $n-1$ trên khoảng $I$. Đạo hàm cấp $n$ được xác định đệ quy:
+\[
+f^{(n)}(x) = \left( f^{(n-1)}(x) \right)'.
+\]
+
+\begin{theorem}[Công thức Leibniz cho Đạo hàm Tích]
+Nếu hai hàm số $u(x)$ và $v(x)$ khả vi đến cấp $n$ trên khoảng $I$, thì tích $uv$ cũng khả vi đến cấp $n$ và:
+\[
+(uv)^{(n)} = \sum_{k=0}^n \binom{n}{k} u^{(n-k)} v^{(k)}.
+\]
+\end{theorem}
+
+\begin{proof}
+Chứng minh bằng phương pháp quy nạp toán học theo $n$.
+Với $n=1$: $(uv)' = u'v + uv'$ (đúng theo công thức nhân thông thường).
+
+Giả sử mệnh đề đúng với $n=m$:
+\[
+(uv)^{(m)} = \sum_{k=0}^m \binom{m}{k} u^{(m-k)} v^{(k)}.
+\]
+Lấy đạo hàm hai vế theo $x$:
+\[
+(uv)^{(m+1)} = \sum_{k=0}^m \binom{m}{k} \left[ u^{(m-k+1)} v^{(k)} + u^{(m-k)} v^{(k+1)} \right].
+\]
+Tách thành hai tổng và dịch chuyển chỉ số:
+\[
+(uv)^{(m+1)} = \binom{m}{0} u^{(m+1)}v + \sum_{k=1}^m \left[ \binom{m}{k} + \binom{m}{k-1} \right] u^{(m+1-k)} v^{(k)} + \binom{m}{m} u v^{(m+1)}.
+\]
+Áp dụng hệ thức Pascal $\binom{m}{k} + \binom{m}{k-1} = \binom{m+1}{k}$, ta có:
+\[
+(uv)^{(m+1)} = \sum_{k=0}^{m+1} \binom{m+1}{k} u^{(m+1-k)} v^{(k)}.
+\]
+Vậy công thức đúng với mọi $n \in \mathbb{N}^*$.
+\end{proof}
+
+\section{Định lý Khai triển Taylor và Phần dư}
+
+\begin{theorem}[Định lý Taylor với Phần dư Dạng Tổng quát]
+Cho hàm số $f: (a, b) \to \mathbb{R}$ khả vi đến cấp $n+1$ trên $(a, b)$ và $x_0 \in (a, b)$. Với mỗi $x \in (a, b)$, tồn tại điểm $\xi$ nằm giữa $x_0$ và $x$ sao cho:
+\[
+f(x) = \sum_{k=0}^n \frac{f^{(k)}(x_0)}{k!} (x - x_0)^k + R_n(x).
+\]
+Trong đó:
+\begin{itemize}
+    \item \textbf{Phần dư Lagrange:}
+    \[
+    R_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!} (x - x_0)^{n+1}.
+    \]
+    \item \textbf{Phần dư Cauchy:}
+    \[
+    R_n(x) = \frac{f^{(n+1)}(\xi)}{n!} (x - \xi)^n (x - x_0).
+    \]
+    \item \textbf{Phần dư Peano} (khi chỉ giả thiết $f$ khả vi đến cấp $n$ tại $x_0$):
+    \[
+    R_n(x) = o((x - x_0)^n) \quad \text{khi } x \to x_0.
+    \]
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+Cố định $x \neq x_0$. Đặt $I$ là đoạn kín có hai đầu mút $x_0$ và $x$. Xét hàm phụ trợ $F: I \to \mathbb{R}$:
+\[
+F(t) = f(x) - \sum_{k=0}^n \frac{f^{(k)}(t)}{k!} (x - t)^k.
+\]
+Tính đạo hàm của $F(t)$ theo $t$:
+\begin{align*}
+F'(t) &= - f'(t) - \sum_{k=1}^n \left[ \frac{f^{(k+1)}(t)}{k!} (x - t)^k - \frac{f^{(k)}(t)}{(k-1)!} (x - t)^{k-1} \right] \\
+&= - \frac{f^{(n+1)}(t)}{n!} (x - t)^n.
+\end{align*}
+Chọn hàm phụ trợ $G(t) = (x - t)^p$ với $p \ge 1$. Ta có $G'(t) = -p(x - t)^{p-1} \neq 0$ trên khoảng giữa $x_0$ và $x$. Áp dụng Định lý Giá trị Trung bình Cauchy cho hai hàm $F$ và $G$ trên đoạn giữa $x_0$ và $x$:
+\[
+\frac{F(x) - F(x_0)}{G(x) - G(x_0)} = \frac{F'(\xi)}{G'(\xi)}.
+\]
+Vì $F(x) = 0, F(x_0) = R_n(x)$ và $G(x) = 0, G(x_0) = (x - x_0)^p$, ta suy ra:
+\[
+\frac{-R_n(x)}{-(x - x_0)^p} = \frac{- \frac{f^{(n+1)}(\xi)}{n!} (x - \xi)^n}{-p(x - \xi)^{p-1}} \implies R_n(x) = \frac{f^{(n+1)}(\xi)}{n! \, p} (x - \xi)^{n+1-p} (x - x_0)^p.
+\]
+\begin{itemize}
+    \item Chọn $p = n + 1$, ta lập tức thu được \textbf{Phần dư Lagrange}:
+    \[
+    R_n(x) = \frac{f^{(n+1)}(\xi)}{(n+1)!} (x - x_0)^{n+1}.
+    \]
+    \item Chọn $p = 1$, ta thu được \textbf{Phần dư Cauchy}:
+    \[
+    R_n(x) = \frac{f^{(n+1)}(\xi)}{n!} (x - \xi)^n (x - x_0).
+    \]
+\end{itemize}
+\end{proof}
+
+\section{Ứng dụng Khảo sát Tính Lồi và Điểm Uốn}
+
+\begin{definition}[Hàm số Lồi]
+Hàm số $f: (a, b) \to \mathbb{R}$ được gọi là \textbf{lồi} trên $(a, b)$ nếu:
+\[
+\forall x_1, x_2 \in (a, b), \forall \lambda \in [0, 1]: f(\lambda x_1 + (1 - \lambda)x_2) \le \lambda f(x_1) + (1 - \lambda)f(x_2).
+\]
+\end{definition}
+
+\begin{theorem}[Tiêu chuẩn Tính Lồi qua Đạo hàm]
+Cho $f$ khả vi cấp hai trên $(a, b)$. Khi đó:
+\begin{enumerate}
+    \item $f$ lồi trên $(a, b) \iff f''(x) \ge 0, \forall x \in (a, b)$.
+    \item Nếu $f''(x) > 0, \forall x \in (a, b)$ thì $f$ lồi ngặt trên $(a, b)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\textbf{Chiều thuận ($\implies$):} Giả sử $f$ lồi và khả vi. Khi đó đồ thị hàm số nằm trên mọi tiếp tuyến của nó, tức là:
+\[
+f(x) \ge f(x_0) + f'(x_0)(x - x_0), \quad \forall x, x_0 \in (a, b).
+\]
+Do đó $f'(x)$ là hàm đơn điệu tăng. Vì $f''$ tồn tại, ta có:
+\[
+f''(x) = \lim_{\Delta x \to 0} \frac{f'(x + \Delta x) - f'(x)}{\Delta x} \ge 0.
+\]
+
+\textbf{Chiều đảo ($\impliedby$):} Giả sử $f''(x) \ge 0$. Theo định lý Lagrange, với mọi $x_1 < x_2$:
+\[
+f'(x_2) - f'(x_1) = f''(\xi)(x_2 - x_1) \ge 0 \implies f' \text{ đơn điệu tăng}.
+\]
+Lấy $x < y$ và $z = \lambda x + (1 - \lambda)y$ với $\lambda \in (0, 1)$. Khi đó $x < z < y$. Áp dụng định lý Lagrange trên $[x, z]$ và $[z, y]$:
+\[
+\frac{f(z) - f(x)}{z - x} = f'(c_1) \le f'(c_2) = \frac{f(y) - f(z)}{y - z} \quad (x < c_1 < z < c_2 < y).
+\]
+Quy đồng mẫu số và biến đổi đại số, ta thu được đúng bất đẳng thức định nghĩa tính lồi.
+\end{proof}
+
+\end{document}
